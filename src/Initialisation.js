@@ -161,7 +161,7 @@ export default {
           leg1.position = new BABYLON.Vector3(x1, y, 0)
           leg1.name = 'leg1';
           task.loadedMeshes[0] = leg1;
-          return task;
+          _this.store.table.legs.push(leg1)
         }
         meshTask2.onSuccess = function (task) {
           leg2 = task.loadedMeshes[0];
@@ -169,16 +169,10 @@ export default {
           leg2.scaling = new BABYLON.Vector3(scale, scale, scale);
           leg2.position = new BABYLON.Vector3(x2, y, 0);
           leg2.name = 'leg2';
+          _this.store.table.legs.push(leg2)
         }
 
-        this.store.table.legs.push(leg1)
-        this.store.table.legs.push(leg2)
-
         this.store.assetsManager.load();
-
-        /*this.store.assetsManager.onTaskSuccessObservable.add(function (task) {
-          console.log("initTableLegs, task successful", task);
-        });*/
       },
       getGLBMaterial() {
         let material = new BABYLON.StandardMaterial("baseMat", this.store.scene);
