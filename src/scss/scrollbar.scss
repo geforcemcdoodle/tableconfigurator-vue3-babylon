@@ -1,0 +1,48 @@
+$fadeOut-display: block;
+
+.scrollbar {
+  overflow: hidden scroll;
+  position: relative;
+  top: 30px;
+  height: 365px;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.25);
+  background-color: #f4f4f9;
+}
+.scrollbar-lady-lips::-webkit-scrollbar-track {
+  //-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  //background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+.scrollbar-lady-lips::-webkit-scrollbar {
+  width: 6px;
+  //background-color: #F5F5F5;
+}
+
+.scrollbar-lady-lips::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(#ff9a9e),
+    color-stop(99%, #fecfef),
+    to(#fecfef)
+  );
+  background-image: -webkit-linear-gradient(bottom, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  background-image: linear-gradient(to top, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+}
+
+.scrollbar-lady-lips {
+  scrollbar-color: #ff9a9e #f5f5f5;
+}
+.fadeOut {
+  display: block;
+  position: relative;
+  height: 100px;
+  bottom: 62px;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7), #fff);
+}

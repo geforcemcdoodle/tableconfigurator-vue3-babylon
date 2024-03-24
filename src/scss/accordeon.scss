@@ -1,0 +1,68 @@
+.accordion {
+  border: none;
+}
+.card-body {
+  .plateform {
+    padding: 0 0;
+  }
+}
+
+.card-header {
+  background-color: '#fff';
+  border-radius: 12px;
+  border-bottom: 3px solid rgb(255, 255, 255);
+  // cursor:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAATCAMAAAB4HKeYAAAACVBMVEX///8AAAD///9+749PAAAAAXRSTlMAQObYZgAAADRJREFUeAFjwAsYsfMYQYgRLsLICKWhskxMTDAmCEMAwhQmEEDho8szUiqPaR+xfIR7sQMAR6QAjICqvMYAAAAASUVORK5CYII=),auto;
+
+  &:hover {
+    animation-name: colorfade;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+  @keyframes colorfade {
+    from {
+    }
+    to {
+      background-color: #e9eced;
+    }
+  }
+}
+.last {
+  border-bottom: none;
+  height: 50.31px;
+}
+.cursor-color {
+  cursor: url('https://api.iconify.design/mdi-palette.svg'), auto;
+}
+.cursor-measure {
+  cursor: url('https://api.iconify.design/mdi-ruler-square-compass.svg'), auto;
+}
+.cursor-saw {
+  cursor: url('https://api.iconify.design/mdi-hand-saw.svg'), auto;
+}
+.cursor-circle {
+  cursor: url('https://api.iconify.design/mdi-swap-horizontal-circle.svg'), auto;
+}
+.cursor-pillar {
+  cursor: url('https://api.iconify.design/mdi-pillar.svg'), auto;
+}
+.cursor-place {
+  cursor: url('https://api.iconify.design/mdi-floor-lamp.svg'), auto;
+}
+.card {
+  border: none;
+  .card-progress {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 6px;
+    .check {
+      color: #195f07;
+    }
+    .edit {
+      color: #c5431b;
+    }
+  }
+}
+.card-link {
+  color: #212529;
+}
