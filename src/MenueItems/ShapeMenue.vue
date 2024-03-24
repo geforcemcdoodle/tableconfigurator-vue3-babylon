@@ -191,6 +191,11 @@ export default defineComponent({
       }
     },
     changePlateform: function (plateform, id, evt) {
+
+      this.store.assetsManager.onTaskSuccessObservable.add(function (task) {
+        console.log("changePlateform, task successful", task);
+      });
+
       // highlight present selection
       this.plate.form.name = plateform
       this.plate.form.id = id
@@ -200,7 +205,7 @@ export default defineComponent({
         this.isActive[shape] = false
       })
       this.isActive[plateform] = true
-      this.updateAll()
+      this.updateAll()      
     },
     getSiblings: function (e) {
       // for collecting siblings

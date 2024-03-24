@@ -4,6 +4,7 @@ export const useStore = defineStore('store', {
   state: () => {
     return {
       assetsManager: null,
+      $meshesImportedTask: null,
       cable_active: null,
       cables: [],
       camera: null,

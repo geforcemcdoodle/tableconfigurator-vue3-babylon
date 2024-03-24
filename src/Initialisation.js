@@ -156,12 +156,12 @@ export default {
 
         meshTask1.onSuccess = function (task) {
           leg1 = task.loadedMeshes[0]
-          leg1.showBoundingBox = true;
-          console.log(leg1.getBoundingInfo().boundingBox.maximumWorld);
           leg1.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD)
           leg1.scaling = new BABYLON.Vector3(scale, scale, scale)
           leg1.position = new BABYLON.Vector3(x1, y, 0)
           leg1.name = 'leg1';
+          task.loadedMeshes[0] = leg1;
+          return task;
         }
         meshTask2.onSuccess = function (task) {
           leg2 = task.loadedMeshes[0];
@@ -174,7 +174,11 @@ export default {
         this.store.table.legs.push(leg1)
         this.store.table.legs.push(leg2)
 
-        this.store.assetsManager.load()
+        this.store.assetsManager.load();
+
+        /*this.store.assetsManager.onTaskSuccessObservable.add(function (task) {
+          console.log("initTableLegs, task successful", task);
+        });*/
       },
       getGLBMaterial() {
         let material = new BABYLON.StandardMaterial("baseMat", this.store.scene);
