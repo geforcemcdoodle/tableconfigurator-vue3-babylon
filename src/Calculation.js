@@ -784,8 +784,8 @@ export default defineComponent({
       },
       getLegPositionForRectangle: function (leftOrRight) {
         let x = [
-          -this.store.table.geometry.length / 2 + 0.5,
-          this.store.table.geometry.length / 2 - 0.5
+          -this.store.table.geometry.length / 2 + 0.5 + this.store.table.geometry.radius,
+          this.store.table.geometry.length / 2 - 0.5 - this.store.table.geometry.radius
         ];
         let y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness;
 
@@ -794,8 +794,8 @@ export default defineComponent({
       getLegPositionForBarrel2: function (leftOrRight) {
         let barrel_bulge = 1;
         let x = [
-          -this.store.table.geometry.length / 2 + 0.5 + barrel_bulge,
-          this.store.table.geometry.length / 2 - 0.5 - barrel_bulge
+          -this.store.table.geometry.length / 2 + 0.5 + barrel_bulge + this.store.table.geometry.radius,
+          this.store.table.geometry.length / 2 - 0.5 - barrel_bulge - this.store.table.geometry.radius
         ];
         let y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness;
 
