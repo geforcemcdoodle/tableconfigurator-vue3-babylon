@@ -251,9 +251,9 @@ export default defineComponent({
   computed: {
     radiusMax: function () {
       // depends on the plate form but we take an empirical value for simplicity
-      // let newMax = this.width * 0.4
-      // this.radius = Math.min(this.radius, newMax).toFixed(1)
-      // return newMax
+      let newMax = this.width * 0.4
+      this.radius = Math.min(this.radius, newMax).toFixed(1)
+      return newMax
     }
   }
 })
