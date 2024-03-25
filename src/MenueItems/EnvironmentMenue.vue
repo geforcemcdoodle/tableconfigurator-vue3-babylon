@@ -40,7 +40,7 @@
           :src="wall.pics"
         />
         <hr />
-        <button type="button" @click="makePhotoDome">360° Photo hochladen</button>
+        <button type="button" @click="onPhotoDome">360° Photo hochladen</button>
       </div>
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
     }
   },
   methods: {
-    makePhotoDome: function () {
+    onPhotoDome: function () {
       this.makePhotoDome();
     },
     onFloor: function (evt) {
