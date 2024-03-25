@@ -191,11 +191,6 @@ export default defineComponent({
       }
     },
     changePlateform: function (plateform, id, evt) {
-      let leg1 = this.store.scene.getMeshByName("leg1");
-      leg1.position = new BABYLON.Vector3(10, 30, 0);
-      console.log("change leg1 position test");
-      console.log(leg1);
-
       // highlight present selection
       this.plate.form.name = plateform
       this.plate.form.id = id

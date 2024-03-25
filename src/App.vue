@@ -97,7 +97,7 @@ export default {
                 id="qty"
                 type="number"
                 class="w-25 border-box h4 rounded bg-white mx-1 border-0 input-number"
-                v-model="qty"
+                v-model="quantity"
                 min="1"
                 max="100"
               />

@@ -155,19 +155,19 @@ export default {
         const meshTask2 = this.store.assetsManager.addMeshTask('leg2', '', leg)
 
         meshTask1.onSuccess = function (task) {
-          leg1 = task.loadedMeshes[0]
-          leg1.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD)
-          leg1.scaling = new BABYLON.Vector3(scale, scale, scale)
-          leg1.position = new BABYLON.Vector3(x1, y, 0)
+          leg1 = task.loadedMeshes[0];
+          leg1.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+          leg1.scaling = new BABYLON.Vector3(scale, scale, scale);
+          leg1.position = new BABYLON.Vector3(x1, y, -_this.store.table.leg_width/2);
           leg1.name = 'leg1';
           task.loadedMeshes[0] = leg1;
-          _this.store.table.legs.push(leg1)
+          _this.store.table.legs.push(leg1);
         }
         meshTask2.onSuccess = function (task) {
           leg2 = task.loadedMeshes[0];
           leg2.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
           leg2.scaling = new BABYLON.Vector3(scale, scale, scale);
-          leg2.position = new BABYLON.Vector3(x2, y, 0);
+          leg2.position = new BABYLON.Vector3(x2, y, -_this.store.table.leg_width/2);
           leg2.name = 'leg2';
           _this.store.table.legs.push(leg2)
         }

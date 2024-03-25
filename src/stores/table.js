@@ -45,6 +45,7 @@ export const useStore = defineStore('store', {
           texture_path_compare: null,
           thickness: 0.03
         },
+        leg_width: 0.4,
         legs: []
       },
       scene: null,

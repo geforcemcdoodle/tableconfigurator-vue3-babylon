@@ -1,6 +1,8 @@
 import earcut from 'earcut'
 import { useStore } from './stores/table'
 import { defineComponent } from 'vue'
+import leg from './models/1leg_dark_steel.glb?url'
+
 
 export default defineComponent({
   setup() {
@@ -766,43 +768,96 @@ export default defineComponent({
         );
         this.store.table.edge.mesh.material = mat;
       },
+      getLegPositionForEllipse: function (leftOrRight) {
+        let a = this.store.table.geometry.length / 2;
+        let b = this.store.table.geometry.width / 2;
+        let leg_length = 2;
+        let leg_width = 0.6;
+        let leg_y = leg_length / 2;
+        let y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness;
+
+
+        let t = Math.sin(( leg_y / b * Math.PI));
+        let x = [ -a * Math.cos(t) + leg_width, a * Math.cos(t) - leg_width];
+        
+        return new BABYLON.Vector3(x[leftOrRight], y, -this.store.table.leg_width/2);
+      },
+      getLegPositionForRectangle: function (leftOrRight) {
+        let x = [
+          -this.store.table.geometry.length / 2 + 0.5,
+          this.store.table.geometry.length / 2 - 0.5
+        ];
+        let y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness;
+
+        return new BABYLON.Vector3(x[leftOrRight], y, -this.store.table.leg_width/2);
+      },
+      getLegPositionForBarrel2: function (leftOrRight) {
+        let barrel_bulge = 1;
+        let x = [
+          -this.store.table.geometry.length / 2 + 0.5 + barrel_bulge,
+          this.store.table.geometry.length / 2 - 0.5 - barrel_bulge
+        ];
+        let y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness;
+
+        return new BABYLON.Vector3(x[leftOrRight], y, -this.store.table.leg_width/2);
+      },
+
       getLegPosition: function (leftOrRight) {
         /**
-         *  0 = left, 1 = right
+         *  x-index [0] = left, [1] = right
          */
-        let x = [
-            -this.store.table.geometry.length / 2 + 0.5,
-            this.store.table.geometry.length / 2 - 0.5
-          ],
-          y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness
-
-        return new BABYLON.Vector3(x[leftOrRight], y, 0)
+        switch(this.store.table.geometry.plateform) {
+        case 'rectangle':
+        case 'barrel1':
+          return this.getLegPositionForRectangle(leftOrRight);        
+        case 'ellipse':
+          return this.getLegPositionForEllipse(leftOrRight);
+        case 'barrel2':
+          return this.getLegPositionForBarrel2(leftOrRight);        
+        }        
       },
       updateTableLegs() {
         /* after change of height, length, width or edge radius of the table plate
-          the position of the legs is updated
+          the position of the legs is updatedi
         */
-        
-        if (this.store.table.legs.length == 4) {
-          for (let i = 0; i < 4; i++) {
-            this.store.table.legs[i] = BABYLON.Mesh.CreateRibbon(
-              '',
-              this.defineLeg(i + 1),
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              this.store.table.legs[i]
-            )
-          }
-        } else {
-          let leg1 = this.store.scene.getMeshByName("leg1");
-          let leg2 = this.store.scene.getMeshByName("leg2");
-          leg1.position = this.getLegPosition(0)
-          leg2.position = this.getLegPosition(1)
+        let _this = this;
+        let scale = 10;
+        let x1 = this.store.table.geometry.length / 2 - 0.5;
+        let x2 = -this.store.table.geometry.length / 2 + 0.5;
+        let y = -this.store.table.geometry.thickness - this.store.table.linoleum.thickness;
+        let leg1 = null, leg2 = null;
+
+
+        // 1st leg
+        const meshTask1 = this.store.assetsManager.addMeshTask('leg1', '', leg);
+        // 2nd leg
+        const meshTask2 = this.store.assetsManager.addMeshTask('leg2', '', leg);
+
+        this.store.scene.getMeshByName("leg1").dispose(false, true);
+        this.store.scene.getMeshByName("leg2").dispose(false, true);
+        // 2DO: legs array isn't cleared by dispose, rather by pop()
+        // this.store.table.legs[0].dispose(false, true);        
+
+        meshTask1.onSuccess = function (task) {
+          leg1 = task.loadedMeshes[0];
+          leg1.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+          leg1.scaling = new BABYLON.Vector3(scale, scale, scale);
+          // leg1.position = _this.getLegPosition(0);
+          leg1.position = _this.getLegPosition(0);
+          leg1.name = 'leg1';
+          _this.store.table.legs.push(leg1);
         }
+        meshTask2.onSuccess = function (task) {
+          leg2 = task.loadedMeshes[0];
+          leg2.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+          leg2.scaling = new BABYLON.Vector3(scale, scale, scale);
+          // leg2.position = _this.getLegPosition(1);
+          leg2.position = _this.getLegPosition(1);
+          leg2.name = 'leg2';
+          _this.store.table.legs.push(leg2);
+        }
+
+        this.store.assetsManager.load();
       },
       xz_To_xy_Trafo: function (contour) {
         /* CreateRibbon demands a profile defined in the xy-plane
