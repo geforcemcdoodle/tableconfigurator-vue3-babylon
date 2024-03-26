@@ -211,27 +211,46 @@ export default defineComponent({
     },
     changetype: function (evt, id) {
       this.cables[id].type = evt.target.value
-      // eventBus.$emit('changetype', { type: evt.target.value, id: id });
     },
     checkHolePositionX(data) {
       // validate user input
-      let { z } = this.store.cables[data.id].pos,
-        x = data.x,
-        h = this.store.table.geometry.height + this.store.table.geometry.thickness,
-        buffer = 0.8,
-        direction = new BABYLON.Vector3(x + Math.sign(x) * buffer, 0, z),
-        l = direction.length(),
-        ray = new BABYLON.Ray(new BABYLON.Vector3(0, h, 0), direction.normalizeFromLength(l), l)
-      //let rayH = new BABYLON.RayHelper(ray);
-      //rayH.show(this.scene, new BABYLON.Color3(255,0,0));
-      let pickingInfo = ray.intersectsMesh(this.store.table.edge.mesh, false)
+      let { z } = this.store.cables[data.id].pos;
+      let x = data.x;
+      let height = this.store.table.geometry.height + this.store.table.geometry.thickness;
+      // empirical value to constrain hole
+      let buffer = 0.8; 
+      let direction = new BABYLON.Vector3(x + Math.sign(x) * buffer, 0, z);
+      let length = direction.length();
+
+      let pickingInfo_HoleEdge = this.getPickingInfo_HoleEdge(height, direction, length);
+      // let pickingInfo_HoleLeg = this.getPickingInfo_HoleLeg(height, direction, length, x);
+
       // set position to the maximum
-      if (pickingInfo.hit === true) {
+      if (pickingInfo_HoleEdge.hit === true) {
         this.store.cables[data.id].pos.x =
-          x < 0 ? pickingInfo.pickedPoint.x + buffer : pickingInfo.pickedPoint.x - buffer
+          x < 0 ? pickingInfo_HoleEdge.pickedPoint.x + buffer : pickingInfo_HoleEdge.pickedPoint.x - buffer;
       } else {
-        this.store.cables[data.id].pos.x = x
+        this.store.cables[data.id].pos.x = x;
       }
+    },
+    getPickingInfo_HoleEdge(height, direction, length) {
+      let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height, 0), direction.normalizeFromLength(length), length);
+      let rayH = new BABYLON.RayHelper(ray);
+      rayH.show(this.store.scene, new BABYLON.Color3(255,0,0));
+      let pickingInfo = ray.intersectsMesh(this.store.table.edge.mesh, false);
+
+      return pickingInfo;
+    },
+    getPickingInfo_HoleLeg(height, direction, length, x_displacement) {
+      let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height - this.store.table.geometry.thickness, 0), direction.normalizeFromLength(length), length);
+      let rayH = new BABYLON.RayHelper(ray);
+      rayH.show(this.store.scene, new BABYLON.Color3(255,0,0));
+
+      let leg = x_displacement < 0 ? this.store.scene.getMeshByName("leg1") : this.store.scene.getMeshByName("leg2");
+      let pickingInfo = ray.intersectsMesh(leg, false);
+      console.log(pickingInfo);
+
+      // return pickingInfo.hit;
     },
     checkHolePositionZ(data) {
       // validate user input

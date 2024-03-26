@@ -102,7 +102,10 @@
         </div>
 
         <hr />
-        <div class="row">
+        <div
+          class="row"
+          v-show="isDisabled"
+        >
           <div class="unit">
             <label for="radius">Eckradius:</label>
             <input
@@ -159,6 +162,7 @@ export default defineComponent({
         ellipse: false
       },
       nowEdited: 0,
+      isdisabled: true,
       toEdit: [true, true, true, true, true],
       prices: [0, 0, 0, 0, 0, 0, 0, 0],
       cables: [],
@@ -200,7 +204,9 @@ export default defineComponent({
         this.isActive[shape] = false
       })
       this.isActive[plateform] = true
-      this.updateAll()      
+      this.updateAll()
+      if (plateform === 'ellipse') this.isDisabled = false;
+      else this.isDisabled = true;
     },
     getSiblings: function (e) {
       // for collecting siblings
