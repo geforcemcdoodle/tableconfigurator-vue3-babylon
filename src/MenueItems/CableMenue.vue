@@ -226,24 +226,25 @@ export default defineComponent({
       let pickingInfo_HoleLeg = this.getPickingInfo_HoleLeg(height, direction, length, x);
 
       // set position to the maximum
-      /* if (pickingInfo_HoleEdge.hit === true) {
+      if (pickingInfo_HoleEdge.hit === true) {
         this.store.cables[data.id].pos.x =
           x < 0 ? pickingInfo_HoleEdge.pickedPoint.x + buffer : pickingInfo_HoleEdge.pickedPoint.x - buffer;
       } else {
         this.store.cables[data.id].pos.x = x;
-      } */
+      }
     },
     getPickingInfo_HoleEdge(height, direction, length) {
-      // let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height, 0), direction.normalizeFromLength(length), length);
-      /*let rayH = new BABYLON.RayHelper(ray);
-      rayH.show(this.store.scene, new BABYLON.Color3(255,0,0));*/
-      // let pickingInfo = ray.intersectsMesh(this.store.table.edge.mesh, false);
+      let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height, 0), direction.normalizeFromLength(length), length);
+      let rayH = new BABYLON.RayHelper(ray);
+      rayH.show(this.store.scene, new BABYLON.Color3(255,0,0));
+      let pickingInfo = ray.intersectsMesh(this.store.table.edge.mesh, false);
+      ray = null;
 
-      // return pickingInfo;
+      return pickingInfo;
     },
     getPickingInfo_HoleLeg(height, direction, length, x_displacement) {
-      // let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height - this.store.table.geometry.thickness, 0), direction.normalizeFromLength(length), length);
-      let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height, 0), direction.normalizeFromLength(length), length);
+      let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height - this.store.table.geometry.thickness, 0), direction.normalizeFromLength(length), length);
+      // let ray = new BABYLON.Ray(new BABYLON.Vector3(0, height, 0), direction.normalizeFromLength(length), length);
 
       console.log(length);
 
